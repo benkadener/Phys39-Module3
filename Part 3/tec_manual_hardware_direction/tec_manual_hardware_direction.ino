@@ -1,8 +1,5 @@
 // Part 3: Second Manual Sketch - Hardware Direction Input
 
-#include <stdio.h>
-#include <string.h>
-
 // ---------- Pins ----------
 const int thermistorPin = A0;
 const int potPin = A1;
@@ -19,63 +16,6 @@ const float T0 = 298.15;             // 25 C in Kelvin
 const float beta = 4540.0;           // K
 
 const int numSamples = 1000;
-
-// These values are updated by the hardware controls or the Python GUI.
-int pwmCommand = 0;
-int direction = LOW;
-bool serialControl = false;
-char commandBuffer[40];
-int commandLength = 0;
-
-
-// Read commands sent by the Python strip-chart interface.
-void readSerialCommands() {
-
-  while (Serial.available() > 0) {
-
-    char incomingCharacter = Serial.read();
-
-    if (incomingCharacter == '\n' || incomingCharacter == '\r') {
-
-      if (commandLength == 0) {
-        continue;
-      }
-
-      commandBuffer[commandLength] = '\0';
-
-      int requestedPWM;
-      char requestedDirection[5];
-
-      int valuesRead = sscanf(
-          commandBuffer,
-          "SET PWM %d DIR %4s",
-          &requestedPWM,
-          requestedDirection
-      );
-
-      if (valuesRead == 2 && requestedPWM >= 0 && requestedPWM <= 255) {
-
-        if (strcmp(requestedDirection, "HEAT") == 0) {
-          direction = LOW;
-        } else if (strcmp(requestedDirection, "COOL") == 0) {
-          direction = HIGH;
-        } else {
-          commandLength = 0;
-          continue;
-        }
-
-        pwmCommand = requestedPWM;
-        serialControl = true;
-      }
-
-      commandLength = 0;
-
-    } else if (commandLength < sizeof(commandBuffer) - 1) {
-      commandBuffer[commandLength] = incomingCharacter;
-      commandLength++;
-    }
-  }
-}
 
 
 // Average thermistor ADC readings
@@ -132,9 +72,6 @@ void setup() {
 
 void loop() {
 
-  // The GUI can take control by sending a complete command line.
-  readSerialCommands();
-
   // ---------- Measure temperature ----------
 
   float averageADC = averageThermistorADC();
@@ -148,11 +85,14 @@ void loop() {
 
   // ---------- Read potentiometer ----------
 
-  if (!serialControl) {
-    int potADC = analogRead(potPin);
-    pwmCommand = map(potADC, 0, 1023, 0, 255);
-    direction = digitalRead(directionPin);
-  }
+  int potADC = analogRead(potPin);
+
+  int pwmCommand = map(potADC, 0, 1023, 0, 255);
+
+
+  // ---------- Read direction switch ----------
+
+  int direction = digitalRead(directionPin);
 
   int activePin;
 
