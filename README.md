@@ -12,7 +12,7 @@ This project measures the temperature of a thermoelectric cooler (TEC), applies 
 
 The current GUI configuration uses the Part 6 Arduino sketch:
 
-`Part 6/Arduino_TEC_GUI.ino/Arduino_TEC_GUI.ino.ino`
+`Part 6/Arduino_TEC_GUI/Arduino_TEC_GUI.ino`
 
 It accepts Python commands in addition to supporting the manual potentiometer and direction switch before serial control is enabled. The paired Python program is:
 
@@ -39,7 +39,7 @@ The Python program reads and plots the Arduino measurement format, prints accept
 
 1. Confirm that the thermistor, potentiometer, direction switch, H-bridge, TEC, normally closed thermal switch, pump, and fans are connected correctly. Confirm that the Arduino and H-bridge share ground.
 2. Confirm that the heat-exchanger pump and radiator fans are operating. Confirm the thermal cutoff and current limit, and obtain instructor approval before applying TEC power.
-3. Upload `Part 2/tec_manual_fixed_direction/tec_manual_fixed_direction.ino` for the first fixed-direction test, `Part 3/tec_manual_hardware_direction/tec_manual_hardware_direction.ino` for manual direction control, or `Part 6/Arduino_TEC_GUI.ino/Arduino_TEC_GUI.ino.ino` for the Python GUI.
+3. Upload `Part 2/tec_manual_fixed_direction/tec_manual_fixed_direction.ino` for the first fixed-direction test, `Part 3/tec_manual_hardware_direction/tec_manual_hardware_direction.ino` for manual direction control, or `Part 6/Arduino_TEC_GUI/Arduino_TEC_GUI.ino` for the Python GUI.
 4. Open Serial Monitor at `9600` baud and verify the measurement lines. Close Serial Monitor completely before running Python because the USB serial connection cannot be shared.
 5. In `Part 4/tec_temperature_strip_chart.py`, set `SERIAL_PORT`, `BAUD_RATE`, plot limits, and `CSV_FILENAME` near the top of the file.
 6. Install `pyserial`, `PySide6`, and `pyqtgraph`, then run:
@@ -64,7 +64,7 @@ The Python program reads serial data in `read_measurements()`, parses each line 
 - `Part 3/tec_manual_hardware_direction/`: second manual Arduino sketch with the physical direction switch.
 - `Part 4/`: Python strip-chart program and temperature CSV data.
 - `part 5/`: additional temperature CSV data.
-- `Part 6/Arduino_TEC_GUI.ino/`: Arduino sketch paired with the Python GUI.
+- `Part 6/Arduino_TEC_GUI/`: Arduino sketch paired with the Python GUI.
 - `Part 7/`: integrated test evidence and workspace material.
 
 ## Current Results
