@@ -135,17 +135,11 @@ void loop() {
   Serial.print(", PWM: ");
   Serial.print(pwmCommand);
 
-  Serial.print(", Pin 11 input: ");
+Serial.print(", Heat/Cool: ");
 
-  if (direction == HIGH) {
-    Serial.print("5V");
-  } else {
-    Serial.print("0V");
-  }
-
-  Serial.print(", Active PWM pin: ");
-  Serial.println(activePin);
-
-
-  delay(100);
+if (direction == LOW) {
+  Serial.println(1);   // experimentally observed heating
+} else {
+  Serial.println(0);   // experimentally observed cooling
+}
 }
